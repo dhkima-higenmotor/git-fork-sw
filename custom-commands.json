@@ -1,0 +1,93 @@
+[
+  {
+    "version" : 1
+  },
+  {
+    "action" : {
+      "script" : "git show HEAD:${file:name} > A.pdf\ngit show HEAD^:${file:name} > B.pdf\n\ndiff-pdf --output-diff=C.pdf A.pdf B.pdf\n\n\"C:\\Program Files\\SumatraPDF\\SumatraPDF.exe\" C.pdf\n\nrm -f A.pdf B.pdf C.pdf\n",
+      "showOutput" : false,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[하이젠] diff PDF",
+    "target" : "file"
+  },
+  {
+    "action" : {
+      "script" : "git show HEAD:${file:name} > A.png\ngit show HEAD^:${file:name} > B.png\n\nmagick compare A.png B.png C.png\n\necho imdisplay C.png\n\"C:\\Program Files\\Honeyview\\Honeyview.exe\" C.png\n\nrm -f A.png B.png C.png\n",
+      "showOutput" : false,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[하이젠] diff PNG",
+    "target" : "file"
+  },
+  {
+    "action" : {
+      "script" : "git merge -Xtheirs ${ref}\n",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[하이젠] MERGE : 현재 브랜치로 강제병합",
+    "refTargets" : [
+      "localbranch",
+      "remotebranch"
+    ],
+    "target" : "ref"
+  },
+  {
+    "action" : {
+      "script" : "git branch -r | grep -v \"\\->\" | sed \"s,\\x1B\\[[0-9;]*[a-zA-Z],,g\" | while read remote; do git branch --track \"${remote#origin/}\" \"$remote\"; done\ngit fetch --all\ngit pull --all\n",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[하이젠] PULL : 모든 브랜치 한꺼번에",
+    "target" : "repository"
+  },
+  {
+    "action" : {
+      "script" : "git pull origin ${ref}\ngit pull origin main",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[하이젠] PULL : 현재 및 main 브랜치",
+    "refTargets" : [
+      "localbranch",
+      "remotebranch"
+    ],
+    "target" : "ref"
+  },
+  {
+    "action" : {
+      "script" : "filename=${file:name}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\ndxfname=${filename%.*}.pdf\n\ninput=$1\nif [ $EXTENSION == \"SLDDRW\" ]\nthen\n    python /d/github/gitsw/swSaveAs.py $filename DXF\nelse\n    echo \"This is not .SLDDRW file.\"\nfi\n",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[하이젠] SLDDRW > DXF",
+    "target" : "file"
+  },
+  {
+    "action" : {
+      "script" : "filename=${file:name}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\npdfname=${filename%.*}.pdf\n\ninput=$1\nif [ $EXTENSION == \"SLDDRW\" ]\nthen\n    python /d/github/gitsw/swSaveAs.py $filename pdf\n    \"C:\\Program Files\\SumatraPDF\\SumatraPDF.exe\" $pdfname\nelse\n    echo \"This is not .SLDDRW file.\"\nfi\n",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[하이젠] SLDDRW > PDF",
+    "target" : "file"
+  },
+  {
+    "action" : {
+      "script" : "filename=${file:name}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\nstpname=${filename%.*}.STEP\n\ninput=$1\nif [ $EXTENSION == \"SLDPRT\" ] || [ $EXTENSION == \"SLDASM\" ]\nthen\n    python /d/github/gitsw/swSaveAs.py $filename STEP\nelse\n    echo \"This is not .SLDPRT or .SLDASM file.\"\nfi\n",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[하이젠] SLDPRT,SLDASM > STEP",
+    "target" : "file"
+  }
+]
