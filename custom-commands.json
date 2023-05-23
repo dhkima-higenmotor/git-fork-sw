@@ -4,22 +4,32 @@
   },
   {
     "action" : {
-      "script" : "git show HEAD:${file:name} > A.pdf\ngit show HEAD^:${file:name} > B.pdf\n\ndiff-pdf --output-diff=C.pdf A.pdf B.pdf\n\n\"C:\\Program Files\\SumatraPDF\\SumatraPDF.exe\" C.pdf\n\nrm -f A.pdf B.pdf C.pdf\n",
-      "showOutput" : false,
+      "script" : "filenameA=${file}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\n\nif [ $EXTENSION == \"IGES\" ] || [ $EXTENSION == \"IGS\" ] || [ $EXTENSION == \"STL\" ] || [ $EXTENSION == \"DXF\" ] || [ $EXTENSION == \"DWG\" ] || [ $EXTENSION == \"STEP\" ] || [ $EXTENSION == \"STP\" ] || [ $EXTENSION == \"SLDPRT\" ] || [ $EXTENSION == \"SLDASM\" ] || [ $EXTENSION == \"SLDDRW\" ] || [ $EXTENSION == \"iges\" ] || [ $EXTENSION == \"igs\" ] || [ $EXTENSION == \"stl\" ] || [ $EXTENSION == \"dxf\" ] || [ $EXTENSION == \"dwg\" ] || [ $EXTENSION == \"step\" ] || [ $EXTENSION == \"stp\" ] || [ $EXTENSION == \"sldprt\" ] || [ $EXTENSION == \"sldasm\" ] || [ $EXTENSION == \"slddrw\" ]\nthen\n    # Windows Style Path\n    PWD=$(pwd)\n    DRIVE=${PWD:1:1}\n    DIRA=${PWD:2}\n    DIRB=${DIRA//\\//\\\\}\n    filepathA=\"${DRIVE}:${DIRB}\\\\${filenameA}\"\n    TOTAL=${filepathA//\\//\\\\}\n    echo ${TOTAL}\n    #\"C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\SLDWORKS.exe\" ${TOTAL}\n    \"/c/Program Files/SOLIDWORKS Corp/eDrawings/eDrawings.exe\" ${TOTAL}\nelse\n    echo \"This is not 3D file.\"\nfi\n",
+      "showOutput" : true,
       "type" : "sh",
       "waitForExit" : true
     },
-    "name" : "[하이젠] diff PDF",
+    "name" : "[PDM] [eDrawings] 2D,3D View",
     "target" : "file"
   },
   {
     "action" : {
-      "script" : "git show HEAD:${file:name} > A.png\ngit show HEAD^:${file:name} > B.png\n\nmagick compare A.png B.png C.png\n\necho imdisplay C.png\n\"C:\\Program Files\\Honeyview\\Honeyview.exe\" C.png\n\nrm -f A.png B.png C.png\n",
+      "script" : "filename=${file:name}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\n\ninput=$1\nif [ $EXTENSION == \"PDF\" ] || [ $EXTENSION == \"pdf\" ]\nthen\n    git show HEAD:${file:name} > A.pdf\n    git show HEAD^:${file:name} > B.pdf\n    diff-pdf --output-diff=C.pdf A.pdf B.pdf\n    #\"C:\\Program Files\\SumatraPDF\\SumatraPDF.exe\" C.pdf\n    mupdf C.pdf\n    rm -f A.pdf B.pdf C.pdf\nelse\n    echo \"This is not .PDF file.\"\nfi\n\n\n\n\n\n\n\n",
       "showOutput" : false,
       "type" : "sh",
       "waitForExit" : true
     },
-    "name" : "[하이젠] diff PNG",
+    "name" : "[PDM] diff binary / PDF",
+    "target" : "file"
+  },
+  {
+    "action" : {
+      "script" : "filename=${file:name}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\n\ninput=$1\nif [ $EXTENSION == \"PNG\" ] || [ $EXTENSION == \"png\" ]\nthen\n    git show HEAD^:${file:name} > A.png\n    git show HEAD:${file:name} > B.png\n    #magick compare A.png B.png -highlight-color red C.png\n    #magick compare A.png B.png -compose Src C.png\n    magick compare A.png B.png C.png\n    #imdisplay C.png\n    #Honeyview.exe C.png\n    qView.exe C.png\n    rm -f A.png B.png C.png\n    echo Finished.\nelse\n    echo \"This is not .PNG file.\"\nfi\n",
+      "showOutput" : false,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[PDM] diff binary / PNG",
     "target" : "file"
   },
   {
@@ -29,10 +39,9 @@
       "type" : "sh",
       "waitForExit" : true
     },
-    "name" : "[하이젠] MERGE : 현재 브랜치로 강제병합",
+    "name" : "[PDM] MERGE force into current branch",
     "refTargets" : [
-      "localbranch",
-      "remotebranch"
+      "localbranch"
     ],
     "target" : "ref"
   },
@@ -43,7 +52,7 @@
       "type" : "sh",
       "waitForExit" : true
     },
-    "name" : "[하이젠] PULL : 모든 브랜치 한꺼번에",
+    "name" : "[PDM] PULL all branches",
     "target" : "repository"
   },
   {
@@ -53,10 +62,9 @@
       "type" : "sh",
       "waitForExit" : true
     },
-    "name" : "[하이젠] PULL : 현재 및 main 브랜치",
+    "name" : "[PDM] PULL main and current branch",
     "refTargets" : [
-      "localbranch",
-      "remotebranch"
+      "localbranch"
     ],
     "target" : "ref"
   },
@@ -67,7 +75,7 @@
       "type" : "sh",
       "waitForExit" : true
     },
-    "name" : "[하이젠] SLDDRW > DXF",
+    "name" : "[PDM] SW Export / SLDDRW > DXF",
     "target" : "file"
   },
   {
@@ -77,7 +85,7 @@
       "type" : "sh",
       "waitForExit" : true
     },
-    "name" : "[하이젠] SLDDRW > PDF",
+    "name" : "[PDM] SW Export / SLDDRW > PDF",
     "target" : "file"
   },
   {
@@ -87,7 +95,7 @@
       "type" : "sh",
       "waitForExit" : true
     },
-    "name" : "[하이젠] SLDPRT,SLDASM > STEP",
+    "name" : "[PDM] SW Export / SLDPRT,SLDASM > STEP",
     "target" : "file"
   }
 ]

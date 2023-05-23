@@ -1,82 +1,66 @@
 
+# git-for-sw
 
-## 설치해야 하는 소프트웨어
+**Custom Commands for git-fork to Simple Solidworks PDM**
 
-* scoop
 
-```powershell
-powershell
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
-irm get.scoop.sh | iex
+## Must be installed
+
+* [MyScoop](https://github.com/dymaxionkim/MyScoop) toolchain
+* [git-fork](https://git-fork.com/)
+* [Solidworks](https://www.solidworks.com/ko)
+* [eDrawings](https://www.edrawingsviewer.com/download-edrawings)
+
+
+## git-fork-sw
+
+```cmd
+git clone https://github.com/dhkima-higenmotor/git-fork-sw.git D:\github\git-fork-sw
+copy D:\github\git-fork-sw\custom-commands.json %userprofile%\AppData\Local\Fork\custom-commands.json
 ```
-
-* git-fork
-  - `%userprofile%\AppData\Local\Fork\Fork.exe`f
-
-* ImageMagick
-  - Recommend : `scoop install diff-pdf` : Not absolute
-
-* 꿀뷰(Honeyview)
-  - `C:\Program Files\Honeyview\Honeyview.exe`
-
-* Python3 (Recommended Miniconda3)
-  - `conda install pywin32` : Not absolute
-
-* diff-pdf
-  - Recommend : `scoop install diff-pdf` : Not absolute
-
-* SumatraPDF
-  - `C:\Program Files\SumatraPDF\SumatraPDF.exe`
-
-* Solidworks 2023
-  - `C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\SLDWORKS.exe` : Not absolute
-
-
-## git-fork-sw 설치
-
-```
-bash
-git clone https://github.com/dhkima-higenmotor/git-fork-sw.git /d/github/git-fork-sw
-cp /d/github/git-fork-sw/custom-commands.json %HOME/AppData/Local/Fork/custom-commands.json
-```
-
-* 설치 소프트웨어 경로가 다를 경우 `custom-commands.json` 내용 편집할 것
 
 
 ## Custom Commands
 
-### PULL : 모든 브랜치 한꺼번에
-* Repository 메뉴에 뜸
-* 모든 원격브랜치를 싹 다 가져옴
+### [PDM] [eDrawings] 2D,3D View
+* File Context Menu
+* Need : eDrawings viewer or eDrawings Professional
+* View Solidworks File, STEP, IGES, STL
 
+### [PDM] SW Export / SLDDRW > DXF
+* File Context Menu
+* Need : Solidworks
+* Export dxf drawing file
 
-### MERGE : 현재 브랜치로 강제병합
-* Branch 컨텍스트 메뉴에 뜸
-* 선택한 브랜치를 현재 브랜치로 강제로 덮어씀
+### [PDM] SW Export / SLDDRW > PDF
+* File Context Menu
+* Need : Solidworks
+* Export pdf drawing file
 
-### PULL : 현재 및 main 브랜치
-* Branch 컨텍스트 메뉴에 뜸
-* 현재 브랜치, main 브랜치만 가져옴
+### [PDM] SW Export / SLDPRT,SLDASM > STEP
+* File Context Menu
+* Need : Solidworks
+* Export STEP file
 
+### [PDM] diff binary / PDF
+* File Context Menu
+* Need : ImageMagick, mupdf
+* Compare current and previous version
 
-### diff PDF
-* File 컨텍스트 메뉴에 뜸
-* HEAD, HEAD^ 비교파일을 임시로 생성후 보여줌
+### [PDM] diff binary / PNG
+* File Context Menu
+* Need : ImageMagick, qView
+* Compare current and previous version
 
-### diff PNG
-* File 컨텍스트 메뉴에 뜸
-* HEAD, HEAD^ 비교파일을 임시로 생성후 보여줌
+### [PDM] MERGE force into current branch
+* Branch Context Menu
+* git merge -Xtheir
 
-### SLDDRW > DXF
-* File 컨텍스트 메뉴에 뜸
-* 솔리드웍스 도면파일을 DXF로 출력
+### [PDM] PULL main and current branch
+* Branch Context Menu
+* git pull main and current branch
 
-### SLDDRW > PDF
-* File 컨텍스트 메뉴에 뜸
-* 솔리드웍스 도면파일을 PDF로 출력
-
-### SLDPRT,SLDASM > STEP
-* File 컨텍스트 메뉴에 뜸
-* 솔리드웍스 파트, 어셈블리 파일을 STEP으로 출력
-
+### [PDM] PULL all branches
+* Repository Menu
+* git pull --all
 
