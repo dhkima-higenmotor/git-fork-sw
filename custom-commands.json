@@ -70,7 +70,7 @@
   },
   {
     "action" : {
-      "script" : "filenameA=${file}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\n\ninput=$1\nif [ $EXTENSION == \"SLDASM\" ]\nthen\n    # Windows Style Path\n    PWD=$(pwd)\n    DRIVE=${PWD:1:1}\n    DIRA=${PWD:2}\n    DIRB=${DIRA//\\//\\\\}\n    filepathA=\"${DRIVE}:${DIRB}\\\\${filenameA}\"\n    TOTAL=${filepathA//\\//\\\\}\n    echo ${TOTAL}\n    python /d/github/git-fork-sw/swBOM-CSV.py ${TOTAL}\nelse\n    echo \"This is not .SLDASM file.\"\nfi\n",
+      "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\nBOMfilepath=${totalfilepath}/BOM\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\n\nif [ ${fileext} == \"SLDASM\" ] || [ ${fileext} == \"sldasm\" ]\nthen\n    python /d/github/git-fork-sw/swBOM-CSV.py ${ORGfilepathWIN}\nelse\n    echo \"This is not .SLDASM file.\"\nfi\n\necho ${BOMfilepath}/${filebase}.csv\n",
       "showOutput" : true,
       "type" : "sh",
       "waitForExit" : true
@@ -80,7 +80,7 @@
   },
   {
     "action" : {
-      "script" : "filenameA=${file}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\ndxfname=${filename%.*}.dxf\n\nif [ $EXTENSION == \"SLDDRW\" ]\nthen\n    # Windows Style Path\n    PWD=$(pwd)\n    DRIVE=${PWD:1:1}\n    DIRA=${PWD:2}\n    DIRB=${DIRA//\\//\\\\}\n    filepathA=\"${DRIVE}:${DIRB}\\\\${filenameA}\"\n    TOTAL=${filepathA//\\//\\\\}\n    #echo ${TOTAL}\n    python /d/github/git-fork-sw/swSaveAs.py ${TOTAL} DXF\nelse\n    echo \"This is not .SLDDRW file.\"\nfi\n",
+      "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\nDXFfilepathWIN=\"${DRIVE}:${DIRB}\\\\2D\\\\${filebase}.dxf\"\n\n\nif [ ${fileext} == \"SLDDRW\" ] || [ ${fileext} == \"slddrw\" ]\nthen\n    python /d/github/git-fork-sw/swSaveAs.py ${ORGfilepathWIN} DXF\nelse\n    echo \"This is not .SLDDRW file.\"\nfi\n",
       "showOutput" : true,
       "type" : "sh",
       "waitForExit" : true
@@ -90,8 +90,8 @@
   },
   {
     "action" : {
-      "script" : "filenameA=${file}\nfilenameB=${filenameA//\\//\\\\}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\npdfnameA=${filenameB%.*}.pdf\n\nif [ $EXTENSION == \"SLDDRW\" ]\nthen\n    # Windows Style Path\n    PWD=$(pwd)\n    DRIVE=${PWD:1:1}\n    DIRA=${PWD:2}\n    DIRB=${DIRA//\\//\\\\}\n    filepathA=\"${DRIVE}:${DIRB}\\\\${filenameB}\"\n    TOTAL=${filepathA//\\//\\\\}\n    echo ${TOTAL}\n    OUTPUT=$(python /d/github/git-fork-sw/swSaveAs.py ${TOTAL} pdf)\n    #\"C:\\Program Files\\SumatraPDF\\SumatraPDF.exe\" ${OUTPUT}\n    mupdf ${OUTPUT}\n    echo ${OUTPUT}\nelse\n    echo \"This is not .SLDDRW file.\"\nfi\n",
-      "showOutput" : true,
+      "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\nPDFfilepathWIN=\"${DRIVE}:${DIRB}\\\\2D\\\\${filebase}.pdf\"\n\nif [ ${fileext} == \"SLDDRW\" ] || [ ${fileext} == \"slddrw\" ]\nthen\n    OUTPUT=$(python /d/github/git-fork-sw/swSaveAs.py ${ORGfilepathWIN} pdf)\n    mupdf ${OUTPUT}\n    echo ${OUTPUT}\nelse\n    echo \"This is not .SLDDRW file.\"\nfi\n",
+      "showOutput" : false,
       "type" : "sh",
       "waitForExit" : true
     },
@@ -100,7 +100,7 @@
   },
   {
     "action" : {
-      "script" : "filenameA=${file}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\n\nif [ $EXTENSION == \"SLDPRT\" ] || [ $EXTENSION == \"SLDASM\" ]\nthen\n    # Windows Style Path\n    PWD=$(pwd)\n    DRIVE=${PWD:1:1}\n    DIRA=${PWD:2}\n    DIRB=${DIRA//\\//\\\\}\n    filepathA=\"${DRIVE}:${DIRB}\\\\${filenameA}\"\n    TOTAL=${filepathA//\\//\\\\}\n    echo ${TOTAL}\n    python /d/github/git-fork-sw/swSaveAs.py ${TOTAL} STEP\nelse\n    echo \"This is not .SLDPRT or .SLDASM file.\"\nfi\n",
+      "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\n\nif [ ${fileext} == \"SLDPRT\" ] || [ ${fileext} == \"sldprt\" ] || [ ${fileext} == \"SLDASM\" ] || [ ${fileext} == \"sldasm\" ]\nthen\n    python /d/github/git-fork-sw/swSaveAs.py ${ORGfilepathWIN} STEP\nelse\n    echo \"This is not .SLDPRT or .SLDASM file.\"\nfi\n",
       "showOutput" : true,
       "type" : "sh",
       "waitForExit" : true
@@ -110,8 +110,8 @@
   },
   {
     "action" : {
-      "script" : "filenameA=${file}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\n\nif [ $EXTENSION == \"IGES\" ] || [ $EXTENSION == \"IGS\" ] || [ $EXTENSION == \"STL\" ] || [ $EXTENSION == \"DXF\" ] || [ $EXTENSION == \"DWG\" ] || [ $EXTENSION == \"STEP\" ] || [ $EXTENSION == \"STP\" ] || [ $EXTENSION == \"SLDPRT\" ] || [ $EXTENSION == \"SLDASM\" ] || [ $EXTENSION == \"SLDDRW\" ] || [ $EXTENSION == \"iges\" ] || [ $EXTENSION == \"igs\" ] || [ $EXTENSION == \"stl\" ] || [ $EXTENSION == \"dxf\" ] || [ $EXTENSION == \"dwg\" ] || [ $EXTENSION == \"step\" ] || [ $EXTENSION == \"stp\" ] || [ $EXTENSION == \"sldprt\" ] || [ $EXTENSION == \"sldasm\" ] || [ $EXTENSION == \"slddrw\" ]\nthen\n    # Windows Style Path\n    PWD=$(pwd)\n    DRIVE=${PWD:1:1}\n    DIRA=${PWD:2}\n    DIRB=${DIRA//\\//\\\\}\n    filepathA=\"${DRIVE}:${DIRB}\\\\${filenameA}\"\n    TOTAL=${filepathA//\\//\\\\}\n    echo ${TOTAL}\n    #\"C:\\Program Files\\SOLIDWORKS Corp\\SOLIDWORKS\\SLDWORKS.exe\" ${TOTAL}\n    \"/c/Program Files/SOLIDWORKS Corp/eDrawings/eDrawings.exe\" ${TOTAL}\nelse\n    echo \"This is not 3D file.\"\nfi\n",
-      "showOutput" : true,
+      "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\n\nif [ ${fileext} == \"IGES\" ] || [ ${fileext} == \"IGS\" ] || [ ${fileext} == \"STL\" ] || [ ${fileext} == \"DXF\" ] || [ ${fileext} == \"DWG\" ] || [ ${fileext} == \"STEP\" ] || [ ${fileext} == \"STP\" ] || [ ${fileext} == \"SLDPRT\" ] || [ ${fileext} == \"SLDASM\" ] || [ ${fileext} == \"SLDDRW\" ] || [ ${fileext} == \"iges\" ] || [ ${fileext} == \"igs\" ] || [ ${fileext} == \"stl\" ] || [ ${fileext} == \"dxf\" ] || [ ${fileext} == \"dwg\" ] || [ ${fileext} == \"step\" ] || [ ${fileext} == \"stp\" ] || [ ${fileext} == \"sldprt\" ] || [ ${fileext} == \"sldasm\" ] || [ ${fileext} == \"slddrw\" ]\nthen\n    eDrawings.exe ${ORGfilepathWIN}\nelse\n    echo \"This is not 2D,3D file.\"\nfi\n",
+      "showOutput" : false,
       "type" : "sh",
       "waitForExit" : true
     },
@@ -120,7 +120,7 @@
   },
   {
     "action" : {
-      "script" : "filenameA=${file}\nEXTENSION=$(echo \"$filename\" | sed 's/^.*\\.//')\n\ninput=$1\nif [ $EXTENSION == \"SLDASM\" ]\nthen\n    # Windows Style Path\n    PWD=$(pwd)\n    DRIVE=${PWD:1:1}\n    DIRA=${PWD:2}\n    DIRB=${DIRA//\\//\\\\}\n    filepathA=\"${DRIVE}:${DIRB}\\\\${filenameA}\"\n    TOTAL=${filepathA//\\//\\\\}\n    echo ${TOTAL}\n    python /d/github/git-fork-sw/swBOM-GUI.py ${TOTAL}\nelse\n    echo \"This is not .SLDASM file.\"\nfi\n",
+      "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\nBOMfilepath=${totalfilepath}/BOM\nDRAWfilepath=${totalfilepath}/2D\ncsvfile=${filebase}.csv\n\n# Windows Style Path\nDRIVE=${BOMfilepath:1:1}\nDIRA=${BOMfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nBOMfilepathWIN=\"${DRIVE}:${DIRB}\\\\${csvfile}\"\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\n\nif [ ! -e ${BOMfilepathWIN} ]\nthen\n    python /d/github/git-fork-sw/swBOM-CSV.py ${totalfilepath}/${file:name}\nfi\n\nif [ ${fileext} == \"SLDASM\" ] || [ ${fileext} == \"sldasm\" ]\nthen\n    python /d/github/git-fork-sw/swBOM-GUI.py ${totalfilepath}/${file:name}\nelse\n    echo \"This is not .SLDASM file.\"\nfi\n",
       "showOutput" : false,
       "type" : "sh",
       "waitForExit" : true

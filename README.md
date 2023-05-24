@@ -30,10 +30,15 @@ explorer.exe
 
 ## Custom Commands
 
-### [PDM] [eDrawings] 2D,3D View
+### [PDM] View / [eDrawings] 2D,3D View
 * File Context Menu
 * Need : eDrawings viewer or eDrawings Professional
 * View Solidworks File, STEP, IGES, STL
+
+### [PDM] View / BOM (csv)
+* File Context Menu
+* Need : Solidworks
+* View BOM Tree from .SLDASM file
 
 ### [PDM] SW Export / SLDDRW > DXF
 * File Context Menu
@@ -49,6 +54,11 @@ explorer.exe
 * File Context Menu
 * Need : Solidworks
 * Export STEP file
+
+### [PDM] SW Export / SLDASM > BOM (csv)
+* File Context Menu
+* Need : Solidworks
+* Export csv BOM Tree file from .SLDASM file
 
 ### [PDM] diff binary / PDF
 * File Context Menu
