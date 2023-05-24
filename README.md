@@ -20,6 +20,8 @@ copy D:\github\git-fork-sw\custom-commands.json %userprofile%\AppData\Local\Fork
 ```
 
 ```cmd
+# find eDrawings.exe
+es eDrawings.exe
 # Path for eDrawings
 reg add "HKCU\Environment" /v path /t REG_EXPAND_SZ /d "%path%;C:\Program Files\SOLIDWORKS Corp\eDrawings" /f
 # Refresh env variables
