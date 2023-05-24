@@ -4,6 +4,13 @@
 **Custom Commands for git-fork to Simple Solidworks PDM**
 
 
+## Purpose
+
+1. git을 간이 PDM으로 사용
+2. git-fork 프로그램만 사용
+3. 신규 어플리케이션 개발 필요성 제거
+
+
 ## Must be installed
 
 * [MyScoop](https://github.com/dymaxionkim/MyScoop) toolchain
