@@ -71,7 +71,7 @@
   {
     "action" : {
       "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\nBOMfilepath=${totalfilepath}/BOM\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\n\nif [ ${fileext} == \"SLDASM\" ] || [ ${fileext} == \"sldasm\" ]\nthen\n    python /d/github/git-fork-sw/swBOM-CSV.py ${ORGfilepathWIN}\nelse\n    echo \"This is not .SLDASM file.\"\nfi\n\necho ${BOMfilepath}/${filebase}.csv\n",
-      "showOutput" : true,
+      "showOutput" : false,
       "type" : "sh",
       "waitForExit" : true
     },
@@ -81,7 +81,7 @@
   {
     "action" : {
       "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\nDXFfilepathWIN=\"${DRIVE}:${DIRB}\\\\2D\\\\${filebase}.dxf\"\n\n\nif [ ${fileext} == \"SLDDRW\" ] || [ ${fileext} == \"slddrw\" ]\nthen\n    python /d/github/git-fork-sw/swSaveAs.py ${ORGfilepathWIN} DXF\nelse\n    echo \"This is not .SLDDRW file.\"\nfi\n",
-      "showOutput" : true,
+      "showOutput" : false,
       "type" : "sh",
       "waitForExit" : true
     },
@@ -101,12 +101,32 @@
   {
     "action" : {
       "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\n\nif [ ${fileext} == \"SLDPRT\" ] || [ ${fileext} == \"sldprt\" ] || [ ${fileext} == \"SLDASM\" ] || [ ${fileext} == \"sldasm\" ]\nthen\n    python /d/github/git-fork-sw/swSaveAs.py ${ORGfilepathWIN} STEP\nelse\n    echo \"This is not .SLDPRT or .SLDASM file.\"\nfi\n",
-      "showOutput" : true,
+      "showOutput" : false,
       "type" : "sh",
       "waitForExit" : true
     },
     "name" : "[PDM] SW Export / SLDPRT,SLDASM > STEP",
     "target" : "file"
+  },
+  {
+    "action" : {
+      "script" : "SldWorks.exe",
+      "showOutput" : false,
+      "type" : "sh",
+      "waitForExit" : false
+    },
+    "name" : "[PDM] SW start",
+    "target" : "repository"
+  },
+  {
+    "action" : {
+      "script" : "taskkill //F //IM SldWorks.exe",
+      "showOutput" : false,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[PDM] SW taskkill",
+    "target" : "repository"
   },
   {
     "action" : {
