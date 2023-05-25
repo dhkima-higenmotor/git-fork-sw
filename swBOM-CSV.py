@@ -41,7 +41,7 @@ listComponent(rootComponent)
 
 #print(list_component)
 # Close SW
-swApp.ExitApp()
+#swApp.ExitApp()
 
 # Save csv
 if not os.path.isdir(BOM_path):
