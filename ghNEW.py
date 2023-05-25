@@ -3,10 +3,14 @@ import os
 import time
 import shutil
 import webbrowser
+import sys
 
 BASE_PATH = "D:\github"
 ORGAN = "mech-higenmotor"
-repo = sg.popup_get_text('Enter new repository name:', title="New repo")
+repo = sg.popup_get_text('Enter new repository name:', title="New repo", keep_on_top=True)
+if repo is None or repo == "":
+    print("repo is None.")
+    sys.exit()
 REPO_PATH = f"{BASE_PATH}\\{repo}"
 
 if os.path.isdir(REPO_PATH):
