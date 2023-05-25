@@ -23,6 +23,6 @@ if not os.path.isdir(DRAWING_path):
 
 Result = Model.SaveAs(new_file_path)
 
-swApp.CloseAllDocuments(True)
-swApp.ExitApp()
+#swApp.CloseAllDocuments(True)
+#swApp.ExitApp()
 print(new_file_path)
