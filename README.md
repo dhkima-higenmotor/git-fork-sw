@@ -28,65 +28,11 @@ copy D:\github\git-fork-sw\custom-commands.json %userprofile%\AppData\Local\Fork
 ```cmd
 # find eDrawings.exe
 es eDrawings.exe
-# Path for eDrawings
+
+# Path for eDrawings like that :
 reg add "HKCU\Environment" /v path /t REG_EXPAND_SZ /d "%path%;C:\Program Files\SOLIDWORKS Corp\eDrawings" /f
+
 # Refresh env variables
 taskkill /f /im explorer.exe
 explorer.exe
 ```
-
-
-## Custom Commands
-
-### [PDM] View / [eDrawings] 2D,3D View
-* File Context Menu
-* Need : eDrawings viewer or eDrawings Professional
-* View Solidworks File, STEP, IGES, STL
-
-### [PDM] View / BOM (csv)
-* File Context Menu
-* Need : Solidworks
-* View BOM Tree from .SLDASM file
-
-### [PDM] SW Export / SLDDRW > DXF
-* File Context Menu
-* Need : Solidworks
-* Export dxf drawing file
-
-### [PDM] SW Export / SLDDRW > PDF
-* File Context Menu
-* Need : Solidworks
-* Export pdf drawing file
-
-### [PDM] SW Export / SLDPRT,SLDASM > STEP
-* File Context Menu
-* Need : Solidworks
-* Export STEP file
-
-### [PDM] SW Export / SLDASM > BOM (csv)
-* File Context Menu
-* Need : Solidworks
-* Export csv BOM Tree file from .SLDASM file
-
-### [PDM] diff binary / PDF
-* File Context Menu
-* Need : ImageMagick, mupdf
-* Compare current and previous version
-
-### [PDM] diff binary / PNG
-* File Context Menu
-* Need : ImageMagick, qView
-* Compare current and previous version
-
-### [PDM] MERGE force into current branch
-* Branch Context Menu
-* git merge -Xtheir
-
-### [PDM] PULL main and current branch
-* Branch Context Menu
-* git pull main and current branch
-
-### [PDM] PULL all branches
-* Repository Menu
-* git pull --all
-
