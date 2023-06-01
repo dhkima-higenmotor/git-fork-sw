@@ -113,7 +113,7 @@ def GENERATE(dir, basename, extension, flag):
             if not os.path.isdir(f"{dir}\\2D\\STEP"):
                 os.makedirs(f"{dir}\\2D\\STEP")
             Model.SaveAs(STEP_TEMP)
-            print(f"{flag2} : {STEP_TEMP}")
+            print(f"{STEP_TEMP}")
             swApp.CloseDoc(TOTAL_PATH)
         elif ((flag == "MODIFIED") or (flag == "NEW")) and (flag3 == 1) and (extension == ".SLDDRW"):
             f = swApp.getopendocspec(TOTAL_PATH)
@@ -124,8 +124,8 @@ def GENERATE(dir, basename, extension, flag):
                 os.makedirs(f"{dir}\\2D\\DXF")
             Model.SaveAs(PDF_TEMP)
             Model.SaveAs(DXF_TEMP)
-            print(f"{flag2} : {PDF_TEMP}")
-            print(f"{flag2} : {DXF_TEMP}")
+            print(f"{PDF_TEMP}")
+            print(f"{DXF_TEMP}")
             swApp.CloseDoc(TOTAL_PATH)
 
 for line in MODIFIED:
