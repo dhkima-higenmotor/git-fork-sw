@@ -104,26 +104,28 @@ def GENERATE(dir, basename, extension, flag):
         else:
             flag2 = 1
         if (extension == ".SLDDRW") and (os.path.isfile(PDF_TEMP) and os.path.isfile(DXF_TEMP)):
-            flag2 = 0
+            flag3 = 0
         else:
-            flag2 = 1
-        if ((flag == "MODIFIED") or (flag == "NEW")) and (flag2 == 1):
+            flag3 = 1
+        if ((flag == "MODIFIED") or (flag == "NEW")) and (flag2 == 1) and (extension == ".SLDPRT"):
             f = swApp.getopendocspec(TOTAL_PATH)
             Model = swApp.opendoc7(f)
-            if extension == ".SLDPRT":
-                if not os.path.isdir(f"{dir}\\2D\\STEP"):
-                    os.makedirs(f"{dir}\\2D\\STEP")
-                Model.SaveAs(STEP_TEMP)
-                print(f"{os.path.isfile(STEP_TEMP)} : {STEP_TEMP}")
-            elif extension == ".SLDDRW":
-                if not os.path.isdir(f"{dir}\\2D\\PDF"):
-                    os.makedirs(f"{dir}\\2D\\PDF")
-                if not os.path.isdir(f"{dir}\\2D\\DXF"):
-                    os.makedirs(f"{dir}\\2D\\DXF")
-                Model.SaveAs(PDF_TEMP)
-                Model.SaveAs(DXF_TEMP)
-                print(f"{os.path.isfile(PDF_TEMP)} : {PDF_TEMP}")
-                print(f"{os.path.isfile(DXF_TEMP)} : {DXF_TEMP}")
+            if not os.path.isdir(f"{dir}\\2D\\STEP"):
+                os.makedirs(f"{dir}\\2D\\STEP")
+            Model.SaveAs(STEP_TEMP)
+            print(f"{flag2} : {STEP_TEMP}")
+            swApp.CloseDoc(TOTAL_PATH)
+        elif ((flag == "MODIFIED") or (flag == "NEW")) and (flag3 == 1) and (extension == ".SLDDRW"):
+            f = swApp.getopendocspec(TOTAL_PATH)
+            Model = swApp.opendoc7(f)
+            if not os.path.isdir(f"{dir}\\2D\\PDF"):
+                os.makedirs(f"{dir}\\2D\\PDF")
+            if not os.path.isdir(f"{dir}\\2D\\DXF"):
+                os.makedirs(f"{dir}\\2D\\DXF")
+            Model.SaveAs(PDF_TEMP)
+            Model.SaveAs(DXF_TEMP)
+            print(f"{flag2} : {PDF_TEMP}")
+            print(f"{flag2} : {DXF_TEMP}")
             swApp.CloseDoc(TOTAL_PATH)
 
 for line in MODIFIED:
