@@ -18,10 +18,15 @@
 * [eDrawings](https://www.edrawingsviewer.com/download-edrawings)
 
 
-## git-fork-sw
+## Install git-fork-sw
 
 ```cmd
 git clone https://github.com/dhkima-higenmotor/git-fork-sw.git D:\github\git-fork-sw
+```
+
+```cmd
+rename %userprofile%\AppData\Local\Fork\custom-commands.json custom-commands.old
+
 copy D:\github\git-fork-sw\custom-commands.json %userprofile%\AppData\Local\Fork\custom-commands.json
 ```
 
@@ -30,7 +35,7 @@ copy D:\github\git-fork-sw\custom-commands.json %userprofile%\AppData\Local\Fork
 es eDrawings.exe
 
 # Path for eDrawings like that :
-reg add "HKCU\Environment" /v path /t REG_EXPAND_SZ /d "%path%;C:\Program Files\SOLIDWORKS Corp\eDrawings" /f
+reg add "HKCU\Environment" /v path /t REG_EXPAND_SZ /d "%path%;<C:\Program Files\SOLIDWORKS Corp\eDrawings>" /f
 
 # Refresh env variables
 taskkill /f /im explorer.exe

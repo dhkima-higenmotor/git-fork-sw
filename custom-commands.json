@@ -90,7 +90,7 @@
   },
   {
     "action" : {
-      "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\nPDFfilepathWIN=\"${DRIVE}:${DIRB}\\\\2D\\\\${filebase}.pdf\"\n\nif [ ${fileext} == \"SLDDRW\" ] || [ ${fileext} == \"slddrw\" ]\nthen\n    OUTPUT=$(python /d/github/git-fork-sw/swSaveAs.py ${ORGfilepathWIN} pdf)\n    mupdf ${OUTPUT}\n    echo ${OUTPUT}\nelse\n    echo \"This is not .SLDDRW file.\"\nfi\n",
+      "script" : "# paths\nPWD=$(pwd)\nfilepath=${file}\nfiledir=$(dirname ${filepath})\nfileext=$(echo \"$filepath\" | sed 's/^.*\\.//')\nfilebase=$(basename $filepath .${fileext})\ntotalfilepath=${PWD}/${filedir}\n\n# Windows Style Path\nDRIVE=${totalfilepath:1:1}\nDIRA=${totalfilepath:2}\nDIRB=${DIRA//\\//\\\\}\nORGfilepathWIN=\"${DRIVE}:${DIRB}\\\\${file:name}\"\nPDFfilepathWIN=\"${DRIVE}:${DIRB}\\\\2D\\\\${filebase}.pdf\"\n\nif [ ${fileext} == \"SLDDRW\" ] || [ ${fileext} == \"slddrw\" ]\nthen\n    OUTPUT=$(python /d/github/git-fork-sw/swSaveAs.py ${ORGfilepathWIN} PDF)\n    mupdf ${OUTPUT}\n    echo ${OUTPUT}\nelse\n    echo \"This is not .SLDDRW file.\"\nfi\n",
       "showOutput" : false,
       "type" : "sh",
       "waitForExit" : true
@@ -107,6 +107,16 @@
     },
     "name" : "[PDM] SW Export / SLDPRT,SLDASM > STEP",
     "target" : "file"
+  },
+  {
+    "action" : {
+      "script" : "git ls-files -c --exclude-standard > CACHED_LIST.CSV\ngit ls-files -d --exclude-standard > DELETED_LIST.CSV\ngit ls-files -m --exclude-standard > MODIFIED_LIST.CSV\ngit ls-files -o --exclude-standard > OTHERS_LIST.CSV\n\npython /d/github/git-fork-sw/swExportAll.py $(pwd)\n\n\n",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "[PDM] SW Export all",
+    "target" : "repository"
   },
   {
     "action" : {
