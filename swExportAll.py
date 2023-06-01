@@ -95,6 +95,7 @@ def GENERATE(dir, basename, extension, flag):
     STEP_TEMP = f"{dir}\\2D\\STEP\\{basename}.STEP"
     PDF_TEMP = f"{dir}\\2D\\PDF\\{basename}.PDF"
     DXF_TEMP = f"{dir}\\2D\\DXF\\{basename}.DXF"
+    DXF_TEMP2 = f"{dir}\\2D\\DXF\\00_{basename}.DXF"
     if not os.path.isdir(f"{dir}\\2D"):
         os.makedirs(f"{dir}\\2D")
     swApp = win32com.client.Dispatch('SldWorks.Application')
@@ -103,7 +104,7 @@ def GENERATE(dir, basename, extension, flag):
             flag2 = 0
         else:
             flag2 = 1
-        if (extension == ".SLDDRW") and (os.path.isfile(PDF_TEMP) and os.path.isfile(DXF_TEMP)):
+        if (extension == ".SLDDRW") and (os.path.isfile(PDF_TEMP) and (os.path.isfile(DXF_TEMP) or os.path.isfile(DXF_TEMP2))):
             flag3 = 0
         else:
             flag3 = 1
