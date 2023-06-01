@@ -110,7 +110,7 @@
   },
   {
     "action" : {
-      "script" : "git ls-files -c --exclude-standard > CACHED_LIST.CSV\ngit ls-files -d --exclude-standard > DELETED_LIST.CSV\ngit ls-files -m --exclude-standard > MODIFIED_LIST.CSV\ngit ls-files -o --exclude-standard > OTHERS_LIST.CSV\n\npython /d/github/git-fork-sw/swExportAll.py $(pwd)\n\n\n",
+      "script" : "git ls-files -c > CACHED_LIST.CSV\ngit ls-files -d > DELETED_LIST.CSV\ngit ls-files -m > MODIFIED_LIST.CSV\ngit ls-files -o > OTHERS_LIST.CSV\n\npython /d/github/git-fork-sw/swExportAll.py $(pwd)\n\n\n",
       "showOutput" : true,
       "type" : "sh",
       "waitForExit" : true
