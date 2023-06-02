@@ -42,6 +42,7 @@ listComponent(rootComponent)
 #print(list_component)
 # Close SW
 #swApp.ExitApp()
+swApp.CloseDoc(sld_file_path)
 
 # Save csv
 if not os.path.isdir(BOM_path):
@@ -49,4 +50,3 @@ if not os.path.isdir(BOM_path):
 with open(csv_file_path, 'w', newline='') as f:
     write = csv.writer(f) 
     write.writerows(list_component)
-
