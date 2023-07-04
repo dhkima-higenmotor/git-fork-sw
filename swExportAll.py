@@ -113,8 +113,18 @@ def GENERATE(dir, basename, extension, flag):
             Model = swApp.opendoc7(f)
             if not os.path.isdir(f"{dir}\\2D\\STEP"):
                 os.makedirs(f"{dir}\\2D\\STEP")
-            Model.SaveAs(STEP_TEMP)
-            print(f"{STEP_TEMP}")
+            ConfNames = Model.GetConfigurationNames
+            k = 0
+            for k in range(len(ConfNames)):
+                if ConfNames[k] == "기본":
+                    SaveName = basename
+                else:
+                    SaveName = ConfNames[k]
+                print("2. Export STP from")
+                print(f"{dir}\\2D\\STEP\\{SaveName}.STEP")
+                Model.ShowConfiguration2(ConfNames[k])
+                Result_STP = Model.SaveAs(f"{dir}\\2D\\STEP\\{SaveName}.STEP")
+                print(f"{STEP_TEMP}")
             swApp.CloseDoc(TOTAL_PATH)
         elif ((flag == "MODIFIED") or (flag == "NEW")) and (flag3 == 1) and (extension == ".SLDDRW"):
             f = swApp.getopendocspec(TOTAL_PATH)
