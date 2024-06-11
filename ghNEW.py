@@ -26,12 +26,12 @@ else:
     #print((f"git clone https://github.com/{ORGAN}/{repo}.git {REPO_PATH}"))
     os.chdir(f"{REPO_PATH}")
     os.system(f"git lfs install --local")
-    DOTFILE_PATH = f"{BASE_PATH}\git-fork-sw\Dotfiles"
-    shutil.copy(f"{DOTFILE_PATH}\_gitattributes", f"{REPO_PATH}\.gitattributes")
-    shutil.copy(f"{DOTFILE_PATH}\_gitignore", f"{REPO_PATH}\.gitignore")
-    os.system(f"echo # {repo} > {REPO_PATH}\README.md")
+    DOTFILE_PATH = f"{BASE_PATH}\\git-fork-sw\\Dotfiles"
+    shutil.copy(f"{DOTFILE_PATH}\\_gitattributes", f"{REPO_PATH}\\.gitattributes")
+    shutil.copy(f"{DOTFILE_PATH}\\_gitignore", f"{REPO_PATH}\\.gitignore")
+    os.system(f"echo # {repo} > {REPO_PATH}\\README.md")
     os.system(f"mkdir {REPO_PATH}\\3D")
-    os.system(f"echo # {repo} > {REPO_PATH}\\3D\README.md")
+    os.system(f"echo # {repo} > {REPO_PATH}\\3D\\README.md")
     os.system(f"git add --all")
     os.system(f"git commit -m 'Init'")
     #os.system(f"gh repo sync")
