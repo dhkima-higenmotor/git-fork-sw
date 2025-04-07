@@ -18,6 +18,7 @@ def create_repo_path():
     if os.path.isdir(repo_path):
         messagebox.showinfo("Info", f"Already exist : {repo_path}")
     else:
+        os.chdir(f"D:\\github\\git-fork-sw")
         save_mytoken(mytoken) # github 로그인 토큰을 파일로 저장
         os.system(f"gh auth login --with-token < mytoken.txt") # github 로그인
         os.system(f"gh repo create --internal {organ}/{repo}") # github 저장소 생성
@@ -39,6 +40,7 @@ def create_repo_path():
         webbrowser.open(f"https://github.com/{organ}/{repo}/settings") # github 사이트에서 저장소 세부 설정
 
 def get_mytoken():
+    os.chdir(f"D:\\github\\git-fork-sw")
     token_file_path = "mytoken.txt"
     mytoken = ""  # 기본값으로 빈 문자열 설정
     if os.path.exists(token_file_path):
@@ -53,6 +55,7 @@ def get_mytoken():
     return mytoken
 
 def save_mytoken(mytoken):
+    os.chdir(f"D:\\github\\git-fork-sw")
     token_file_path = "mytoken.txt"
     try:
         with open(token_file_path, "w") as f:
