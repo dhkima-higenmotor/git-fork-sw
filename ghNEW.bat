@@ -1,12 +1,13 @@
 @echo off
 
 REM path
-set root=%USERPROFILE%\miniforge3
-call %root%\Scripts\activate.bat %root%
-call conda activate base
+REM set root=%USERPROFILE%\miniforge3
+REM call %root%\Scripts\activate.bat %root%
+REM call conda activate base
 
 REM execute
-python ghNEW.py
+REM python ghNEW.py
+uv run ghNEW.py
 
 REM pause
 exit
